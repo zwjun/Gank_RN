@@ -4,10 +4,10 @@
  */
 import { combineReducers } from 'redux';
 
-import gankNews from './gankNews';
+import gankData from './gankData';
 
 const reducrs = combineReducers({
-  gankNews,
+  gankData,
 
 });
 

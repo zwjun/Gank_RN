@@ -11,7 +11,8 @@ import {
 import { Provider } from 'react-redux';
 import store from './configureStore';
 import AppNavigator from './AppNavigator';
-import Home from './pages/SettingPages'
+import Test from './test';
+import 'moment/locale/zh-cn'; //moment语言全局设置
 
 export default class App extends Component {
   render() {

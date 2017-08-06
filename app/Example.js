@@ -7,20 +7,21 @@ import {
   StyleSheet,
   Text,
   View,
-  Image
+  Image,
+  Button
 } from 'react-native';
 import {connect} from 'react-redux';
-import * as gankNews from './actions/gankNews';
+import * as gankData from './actions/gankData';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 class App extends Component {
   componentDidMount() {
-    this.props.dispatch(gankNews.requestGetNews())
-      .then((data) => {
-        console.log('====================================');
-        console.log('example', data);
-        console.log('====================================');
-      })
+    // this.props.dispatch(gankData.requestGetNews())
+    //   .then((data) => {
+    //     console.log('====================================');
+    //     console.log('example', data);
+    //     console.log('====================================');
+    //   })
   }
   render() {
     return (
@@ -35,6 +36,10 @@ class App extends Component {
         <Image
           source={require('./images/weibo.png')}
           style={{}}
+        />
+        <Button
+          onPress={() => this.props.navigation.navigate('Login')}
+          title="SettingScreen"
         />
       </View>
     );
@@ -52,8 +57,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-   news: state.gankNews.news,
-   type: state.gankNews.type
+   news: state.gankData.news,
+   type: state.gankData.type
 });
 
 export default connect(mapStateToProps)(App);
