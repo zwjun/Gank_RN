@@ -28,10 +28,7 @@ class HtmlScreen extends Component {
   constructor(props){  
     super(props);  
 
-    this.state = {  
-      navTitle: '',  
-      navUrl: '' 
-    }  
+    this.state = {}  
   }  
   
   onNavigationStateChange(navState) {

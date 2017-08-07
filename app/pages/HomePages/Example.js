@@ -53,18 +53,18 @@ class CommonScreen extends Component {
     this.setState({ type: routeType})
   }
 
-  componentDidMount() {
-    const { type, count, page} = this.state;
-    //console.warn(type);
-    this.props.dispatch(gankData.requestGetGankData(type, count, page))
-      .then((data) => {
-        //console.warn(JSON.stringify(data))
-        this.setState({
-          isLoading: false,
-          listData: data
-        })
-      })
-  }
+  // componentDidMount() {
+  //   const { type, count, page} = this.state;
+  //   //console.warn(type);
+  //   this.props.dispatch(gankData.requestGetGankData(type, count, page))
+  //     .then((data) => {
+  //       //console.warn(JSON.stringify(data))
+  //       this.setState({
+  //         isLoading: false,
+  //         listData: data
+  //       })
+  //     })
+  // }
 
   onPress(item, index) {
     //console.warn(JSON.stringify(item));
@@ -72,7 +72,23 @@ class CommonScreen extends Component {
   }
 
   onEndReached() {
-    this.setState({ isLoading: true })
+    this.setState((prevState, props) => ({ 
+      isLoading: true,
+      page: ++prevState.page
+    }));
+
+    const { type, count, page} = this.state;
+    this.props.dispatch(gankData.requestGetGankData(type, count, page))
+      .then((data) => {
+        this.setState((prevState, props) => {
+          let listData = prevState.listData;
+          listData.push(...data);
+          return {
+            listData,
+            isLoading: false
+          }
+        });
+      })
   }
 
   listFooter() {
@@ -94,7 +110,6 @@ class CommonScreen extends Component {
           onEndReached={() => this.onEndReached()}
           listFooter={() => this.listFooter()}
           onPress={(item, index) => this.onPress(item, index)}
-          {...this.props}
         />
      );
    }

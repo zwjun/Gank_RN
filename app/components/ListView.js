@@ -12,9 +12,17 @@ import {
   StyleSheet,
   TouchableNativeFeedback,
   FlatList,
+  Animated
 }from 'react-native';
 // const moment = require('moment');
 import moment from 'moment';
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+
+const VIEWABILITY_CONFIG = {
+  minimumViewTime: 3000,
+  viewAreaCoveragePercentThreshold: 100,
+  waitForInteraction: true,
+};
 
 class ListView extends React.PureComponent {
   constructor(props) {
@@ -41,8 +49,7 @@ class ListView extends React.PureComponent {
           /> 
         </View>
       )
-    } else {
-      return (
+    } else return (
         <TouchableNativeFeedback key={item._id} onPress={() => this.props.onPress(item, index)}>
           <View style={styles.listItem}>
             <Text numberOfLines={2} style={styles.desc}>{item.desc}</Text>
@@ -61,7 +68,6 @@ class ListView extends React.PureComponent {
           </View>
         </TouchableNativeFeedback>
       )
-    }
   }
 
   renderSeparator() {
@@ -72,16 +78,18 @@ class ListView extends React.PureComponent {
 
   render() {
     return (
-      <FlatList 
+      <AnimatedFlatList 
         style={styles.flatListStyle}
           data={this.props.data}
           renderItem={(item, index) => this.renderItem(item, index)}
           keyExtractor={(item) => item._id}
           refreshing={true}
-          onEndReachedThreshold={0.01}
+          initialNumToRender={10}
+          onEndReachedThreshold={0.001}
           ItemSeparatorComponent={() => this.renderSeparator()}
           onEndReached={this.props.onEndReached}
           ListFooterComponent={this.props.listFooter}
+          viewabilityConfig={VIEWABILITY_CONFIG}
       />
     );
   }

@@ -15,8 +15,10 @@ const gankData = (state = initialState, action) => {
 
   switch (type) {
     case actionTypes.GANK_RECEIVE_IMAGE:
+      const images = state.images;
+      images.push(...payload);
       return Object.assign({}, state, {
-        images: payload
+        images
       });
     case actionTypes.GANK_RECEIVE_NEWS:
       return Object.assign({}, state, {

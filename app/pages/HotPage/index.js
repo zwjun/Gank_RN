@@ -25,18 +25,31 @@ import ListView from '../../components/ListView';
     };
   }
 
-  componentDidMount() {
-    const {type, count, page} = this.state;
-    this.props.dispatch(gankData.requestGetGankIamge(type, count, page))
-      .then(() => {
-        this.setState({
-          isLoading: false
-        })
-      })
-  }
+  // componentDidMount() {
+  //   const {type, count, page} = this.state;
+  //   this.props.dispatch(gankData.requestGetGankIamge(type, count, page))
+  //     .then(() => {
+  //       this.setState({
+  //         isLoading: false
+  //       })
+  //     })
+  // }
+
+  // onEndReached() {
+  //   this.setState({ isLoading: true });
+  // }
 
   onEndReached() {
-    this.setState({ isLoading: true })
+    this.setState((prevState, props) => ({ 
+      isLoading: true,
+      page: ++prevState.page
+    }));
+
+    const { type, count, page} = this.state;
+    this.props.dispatch(gankData.requestGetGankIamge(type, count, page))
+      .then(() => {
+        this.setState({ isLoading: false })
+      })
   }
 
   listFooter() {
